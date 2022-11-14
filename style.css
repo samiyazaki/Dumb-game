@@ -1,4 +1,9 @@
-#game{
+*{
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+}
+.game{
     width: 500px;
     height: 200px;
     border: 1px solid black;
@@ -8,8 +13,11 @@
     width: 20px;
     height: 50px;
     background-color: red;
-    position: relative;
+    position:relative;
     top: 150px;
+}
+.animate{
+    animation: jump 0.3s linear;
 }
 @keyframes jump{
     0%{top: 150px;}
@@ -17,19 +25,20 @@
     70%{top: 100px;}
     100%{top: 150px;}
 }
-.animate{
-    animation: jump 300ms linear;
-}
+
 #block{
+    background-color: blue;
     width: 20px;
     height: 20px;
-    background-color: blue;
     position: relative;
-    top: 130px; 
-    left: 480px; 
+    top: 130px;
+    left: 500px;
     animation: block 1s infinite linear;
 }
 @keyframes block{
-    0%{left: 500px} 
+    0%{left: 500px}
     100%{left: -20px}
+}
+p{
+    text-align: center;
 }
