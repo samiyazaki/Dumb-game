@@ -11,7 +11,8 @@
     left: 0;
     width: 30px;
     height: 60px;
-    background-color: #4CAF50;
+    background: url('./assets/playay.png') no-repeat center;
+    background-size: cover;
 }
 
 #block {
@@ -20,7 +21,8 @@
     bottom: 0;
     width: 50px;
     height: 50px;
-    background-color: #f44336;
+    background: url('./assets/enemininy.png') no-repeat center;
+    background-size: cover;
 }
 
 .animateJump {
