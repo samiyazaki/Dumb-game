@@ -2,6 +2,9 @@ var character = document.getElementById("character");
 var block = document.getElementById("block");
 var gameContainer = document.getElementById("gameContainer");
 var counter = 0;
+var playButton = document.getElementById("playButton");
+var pauseButton = document.getElementById("pauseButton");
+var pauseScreen = document.getElementById("pauseScreen");
 
 character.style.left = '0px'; // Initialize the left position of character
 block.style.right = '0px'; // Initialize the right position of the block
@@ -59,6 +62,19 @@ var moveBlock = setInterval(function() {
         block.style.right = newRight + 'px';
     }
 }, 20);
+playButton.addEventListener("click", function() {
+    gameContainer.style.display = "";
+    pauseScreen.classList.add("hidden");
+    moveBlock = setInterval(moveBlockFunction, 20);
+    checkDead = setInterval(checkDeadFunction, 10);
+});
+
+pauseButton.addEventListener("click", function() {
+    gameContainer.style.display = "none";
+    pauseScreen.classList.remove("hidden");
+    clearInterval(moveBlock);
+    clearInterval(checkDead);
+});
 
 var checkDead = setInterval(function() {
     let characterTop = parseInt(window.getComputedStyle(character).getPropertyValue("top"));
