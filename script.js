@@ -1,10 +1,11 @@
 var character = document.getElementById("character");
 var block = document.getElementById("block");
 var gameContainer = document.getElementById("gameContainer");
-var counter = 0;
 var playButton = document.getElementById("playButton");
 var pauseButton = document.getElementById("pauseButton");
 var pauseScreen = document.getElementById("pauseScreen");
+var counter = 0;
+var playButtonPause = document.getElementById("playButtonPause");
 
 character.style.left = '0px'; // Initialize the left position of character
 block.style.right = '0px'; // Initialize the right position of the block
@@ -53,7 +54,13 @@ function resetBlock() {
 }
 
 // Move the block
-var moveBlock = setInterval(function() {
+var moveBlock = setInterval(moveBlockFunction, 20);
+
+// In your checkDead function, reset the block when the game is over
+var checkDead = setInterval(checkDeadFunction, 10);
+
+// Move Block Function
+function moveBlockFunction() {
     let blockRight = parseInt(block.style.right);
     let newRight = blockRight + blockSpeed;
     if (newRight > window.innerWidth) {
@@ -61,22 +68,10 @@ var moveBlock = setInterval(function() {
     } else {
         block.style.right = newRight + 'px';
     }
-}, 20);
-playButton.addEventListener("click", function() {
-    gameContainer.style.display = "";
-    pauseScreen.classList.add("hidden");
-    moveBlock = setInterval(moveBlockFunction, 20);
-    checkDead = setInterval(checkDeadFunction, 10);
-});
+}
 
-pauseButton.addEventListener("click", function() {
-    gameContainer.style.display = "none";
-    pauseScreen.classList.remove("hidden");
-    clearInterval(moveBlock);
-    clearInterval(checkDead);
-});
-
-var checkDead = setInterval(function() {
+// Check Dead Function
+function checkDeadFunction() {
     let characterTop = parseInt(window.getComputedStyle(character).getPropertyValue("top"));
     let blockRight = parseInt(block.style.right);
     let blockLeft = window.innerWidth - blockRight - block.offsetWidth;
@@ -87,17 +82,36 @@ var checkDead = setInterval(function() {
         alert("Game Over. score: "+Math.floor(counter/100));
         counter = 0;
         resetBlock();  // Reset the block
-        moveBlock = setInterval(function() {  // Start moving the block again
-            let blockRight = parseInt(block.style.right);
-            let newRight = blockRight + blockSpeed;
-            if (newRight > window.innerWidth) {
-                resetBlock();
-            } else {
-                block.style.right = newRight + 'px';
-            }
-        }, 20);
+        moveBlock = setInterval(moveBlockFunction, 20);  // Start moving the block again
     } else{
         counter++;
         document.getElementById("scoreSpan").innerHTML = Math.floor(counter/100);
     }
-}, 10);
+}
+
+playButton.addEventListener("click", function() {
+    gameContainer.style.display = "";
+    pauseScreen.classList.add("hidden");
+    clearInterval(moveBlock); // Clear the previous interval
+    clearInterval(checkDead); // Clear the previous interval
+    moveBlock = setInterval(moveBlockFunction, 20); // Restart the interval
+    checkDead = setInterval(checkDeadFunction, 10); // Restart the interval
+});
+
+pauseButton.addEventListener("click", function() {
+    gameContainer.style.display = "none";
+    pauseScreen.classList.remove("hidden");
+    clearInterval(moveBlock); // Stop moving the block
+    clearInterval(checkDead); // Stop checking if the character is dead
+});
+
+
+
+playButtonPause.addEventListener("click", function() {
+    gameContainer.style.display = "";
+    pauseScreen.classList.add("hidden");
+    clearInterval(moveBlock); // Clear the previous interval
+    clearInterval(checkDead); // Clear the previous interval
+    moveBlock = setInterval(moveBlockFunction, 20); // Restart the interval
+    checkDead = setInterval(checkDeadFunction, 10); // Restart the interval
+});
