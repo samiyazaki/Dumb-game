@@ -71,23 +71,25 @@ function moveBlockFunction() {
 }
 
 // Check Dead Function
-function checkDeadFunction() {
+var checkDead = setInterval(function() {
     let characterTop = parseInt(window.getComputedStyle(character).getPropertyValue("top"));
     let blockRight = parseInt(block.style.right);
     let blockLeft = window.innerWidth - blockRight - block.offsetWidth;
     let characterLeft = parseInt(character.style.left);
 
-    if(blockLeft < (characterLeft + 30) && blockLeft > (characterLeft - 20) && characterTop >= 130){
+    // update the collision condition to match the new dimensions
+    if(blockLeft < (characterLeft + 90) && blockLeft > (characterLeft - 20) && characterTop >= 90){
         clearInterval(moveBlock);  // Stop moving the block
         alert("Game Over. score: "+Math.floor(counter/100));
         counter = 0;
         resetBlock();  // Reset the block
-        moveBlock = setInterval(moveBlockFunction, 20);  // Start moving the block again
+        moveBlock = setInterval(moveBlockFunction, 20);
     } else{
         counter++;
         document.getElementById("scoreSpan").innerHTML = Math.floor(counter/100);
     }
-}
+}, 10);
+
 
 playButton.addEventListener("click", function() {
     gameContainer.style.display = "";
